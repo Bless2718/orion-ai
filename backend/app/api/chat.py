@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from backend.app.models.chat import (
+from backend.app.models.chat_request_schema import (
     ChatRequest,
     ChatResponse
 )
