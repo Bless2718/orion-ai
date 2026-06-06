@@ -19,10 +19,11 @@ from backend.app.models.user_schema import (
 def get_current_user(
     token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
+    
 ):
 
     user_id = verify_token(token)
-
+    print("USER ID:", user_id)
     if not user_id:
         raise HTTPException(
             status_code=401,
