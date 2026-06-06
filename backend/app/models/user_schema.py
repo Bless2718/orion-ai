@@ -16,4 +16,11 @@ class UserResponse(BaseModel):
     }
 class UserUpdate(BaseModel):
     username: str
-    email: str    
+    email: str      
+class UserRegister(BaseModel):
+    username: str
+    email: str
+    password: str
+class UserLogin(BaseModel):
+    email: str
+    password: str
