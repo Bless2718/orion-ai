@@ -1,24 +1,25 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from backend.app.core.config import settings
 
-DATABASE_URL = (
-    "postgresql://postgres:orion123@localhost:5432/orionai_db"
+
+
+engine = create_engine(
+    settings.DATABASE_URL,
+    echo=True,
 )
 
-engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
-    bind=engine
+    bind=engine,
 )
 
 
 def get_db():
     db = SessionLocal()
-
     try:
         yield db
-
     finally:
         db.close()

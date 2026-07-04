@@ -7,7 +7,6 @@ from sqlalchemy.orm import (
 )
 from backend.app.models.base import Base
 
-
 class Chat(Base):
     __tablename__ = "chats"
 

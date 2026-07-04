@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from backend.app.core.database import get_db
 from backend.app.models.user import User
+from fastapi.security import OAuth2PasswordRequestForm
 from backend.app.models.user_schema import UserRegister
 from backend.app.core.security import (
     hash_password,
@@ -13,8 +14,7 @@ from backend.app.core.security import (
 )
 
 from backend.app.models.user_schema import (
-    UserRegister,
-    UserLogin
+    UserRegister
 )
 def get_current_user(
     token: str = Depends(oauth2_scheme),
@@ -79,12 +79,13 @@ def register(
     }
 @router.post("/login")
 def login(
-    credentials: UserLogin,
+    form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
 
+    # We will use the username field to store the email.
     user = db.query(User).filter(
-        User.email == credentials.email
+        User.email == form_data.username
     ).first()
 
     if not user:
@@ -94,7 +95,7 @@ def login(
         )
 
     if not verify_password(
-        credentials.password,
+        form_data.password,
         user.hashed_password
     ):
         raise HTTPException(

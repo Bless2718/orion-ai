@@ -15,22 +15,7 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=UserResponse)
-def create_user(
-    user: UserCreate,
-    db: Session = Depends(get_db)
-):
-    
-    db_user = User(
-        username=user.username,
-        email=user.email
-    )
 
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
-
-    return db_user
 from typing import List
 
 @router.get("/", response_model=List[UserResponse])
